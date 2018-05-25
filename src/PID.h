@@ -17,6 +17,13 @@ public:
   double Ki;
   double Kd;
 
+  double prev_cte;
+
+  long counter;
+  double errorSum;
+  double minError;
+  double maxError;
+
   /*
   * Constructor
   */
