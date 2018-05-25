@@ -1,6 +1,21 @@
-# CarND-Controls-PID
-Self-Driving Car Engineer Nanodegree Program
+# PID-controller
+C++ implementation of the PID controller for both steering and throttle inputs
+---
+## Effects of P, I and D
+### P (Proportional or Gain)
+The main component of the PID controller. Responsible for the car's ability to correct itself based on its error, or how far away it is from the center of the road. A high P results in a more violent correction. Too large a value meant the vehicle tended to oscillate wildly around the center, never able to behave properly damped. Too small a value, and the vehicle would find itself unable to course correct sufficiently in corners.
+### I (Integral or Reset
+Responsible for accounting of inherent errors in the model. As the vehicle tested did not have any steering bias, the I value was left largely untouched. I did increase this value slightly for the throttle PID controller, to account for the natural slowing of the car over time and in corners.
+### D (Derivative or Preact)
+Dampens and reduces oscillation caused by P. A balanced parameter tune between P and D would result in a perfectly damped system. This isn't exactly possible, due to twists in the track, but one can get quite close. This, in conjunction with a consistent throttle controller, allowed the vehicle to stay relatively stable during motion.
 
+## Parameter Tuning
+The steps I took were as follows:
+1. Start with a moderate P value. In this case, I lifted the P value from my previous work in Term 1.
+2. The vehicle's behaviour was to oscillate about the center - this was expected. Reduce P until vehicle is able to stay within track confines despite oscillation
+3. Increase D (VERY) gradually until oscillation becomes manageable, and vehicle's path becomes smoother.
+4. At this point, if vehicle is able to navigate corners effectively, good! If vehicle oveshoots (unable to course correct), increase P and try again.
+5. If oscillation becomes more violent as a result, increase D SLOWLY to match.
 ---
 
 ## Dependencies
@@ -36,63 +51,3 @@ There's an experimental patch for windows in this [PR](https://github.com/udacit
 4. Run it: `./pid`. 
 
 Tips for setting up your environment can be found [here](https://classroom.udacity.com/nanodegrees/nd013/parts/40f38239-66b6-46ec-ae68-03afd8a601c8/modules/0949fca6-b379-42af-a919-ee50aa304e6a/lessons/f758c44c-5e40-4e01-93b5-1a82aa4e044f/concepts/23d376c7-0195-4276-bdf0-e02f1f3c665d)
-
-## Editor Settings
-
-We've purposefully kept editor configuration files out of this repo in order to
-keep it as simple and environment agnostic as possible. However, we recommend
-using the following settings:
-
-* indent using spaces
-* set tab width to 2 spaces (keeps the matrices in source code aligned)
-
-## Code Style
-
-Please (do your best to) stick to [Google's C++ style guide](https://google.github.io/styleguide/cppguide.html).
-
-## Project Instructions and Rubric
-
-Note: regardless of the changes you make, your project must be buildable using
-cmake and make!
-
-More information is only accessible by people who are already enrolled in Term 2
-of CarND. If you are enrolled, see [the project page](https://classroom.udacity.com/nanodegrees/nd013/parts/40f38239-66b6-46ec-ae68-03afd8a601c8/modules/f1820894-8322-4bb3-81aa-b26b3c6dcbaf/lessons/e8235395-22dd-4b87-88e0-d108c5e5bbf4/concepts/6a4d8d42-6a04-4aa6-b284-1697c0fd6562)
-for instructions and the project rubric.
-
-## Hints!
-
-* You don't have to follow this directory structure, but if you do, your work
-  will span all of the .cpp files here. Keep an eye out for TODOs.
-
-## Call for IDE Profiles Pull Requests
-
-Help your fellow students!
-
-We decided to create Makefiles with cmake to keep this project as platform
-agnostic as possible. Similarly, we omitted IDE profiles in order to we ensure
-that students don't feel pressured to use one IDE or another.
-
-However! I'd love to help people get up and running with their IDEs of choice.
-If you've created a profile for an IDE that you think other students would
-appreciate, we'd love to have you add the requisite profile files and
-instructions to ide_profiles/. For example if you wanted to add a VS Code
-profile, you'd add:
-
-* /ide_profiles/vscode/.vscode
-* /ide_profiles/vscode/README.md
-
-The README should explain what the profile does, how to take advantage of it,
-and how to install it.
-
-Frankly, I've never been involved in a project with multiple IDE profiles
-before. I believe the best way to handle this would be to keep them out of the
-repo root to avoid clutter. My expectation is that most profiles will include
-instructions to copy files to a new location to get picked up by the IDE, but
-that's just a guess.
-
-One last note here: regardless of the IDE used, every submitted project must
-still be compilable with cmake and make./
-
-## How to write a README
-A well written README file can enhance your project and portfolio.  Develop your abilities to create professional README files by completing [this free course](https://www.udacity.com/course/writing-readmes--ud777).
-
